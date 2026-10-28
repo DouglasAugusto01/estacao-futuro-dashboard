@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Painel Estação Futuro</title>
+<meta name="description" content="Painel interativo com os dados combinados das 3 planilhas de inscrição do programa Estação Futuro.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="vendor/chart.umd.js"></script>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap top-inner">
+    <div class="title-block">
+      <h1>Painel Estação Futuro</h1>
+      <p>Inscrições combinadas das 3 planilhas de formulário</p>
+    </div>
+    <div class="controls">
+      <div class="chips" id="fonteChips" role="group" aria-label="Filtrar por planilha de origem"></div>
+      <div class="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input id="searchInput" type="text" placeholder="Buscar nome ou bairro…" aria-label="Buscar na tabela">
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="kpis" id="kpis" aria-label="Indicadores gerais"></section>
+
+  <section class="charts-grid">
+    <div class="card">
+      <h3>Bairros com mais inscritos</h3>
+      <p class="cap">Top 10 bairros, por nº de pessoas</p>
+      <div class="chart-box"><canvas id="chartBairros"></canvas></div>
+    </div>
+    <div class="card">
+      <h3>Raça / Etnia</h3>
+      <p class="cap">Autodeclaração dos inscritos</p>
+      <div class="chart-box"><canvas id="chartRaca"></canvas></div>
+    </div>
+    <div class="card">
+      <h3>Faixa etária</h3>
+      <p class="cap">Distribuição por idade</p>
+      <div class="chart-box"><canvas id="chartFaixa"></canvas></div>
+    </div>
+    <div class="card">
+      <h3>Como ficou sabendo</h3>
+      <p class="cap">Top 10 canais declarados</p>
+      <div class="chart-box"><canvas id="chartComo"></canvas></div>
+    </div>
+    <div class="card">
+      <h3>Inscrições por curso</h3>
+      <p class="cap">Nº de inscrições em cada curso</p>
+      <div class="chart-box"><canvas id="chartCursos"></canvas></div>
+    </div>
+    <div class="card">
+      <h3>Inscrições ao longo do tempo</h3>
+      <p class="cap">Novos inscritos por mês</p>
+      <div class="chart-box"><canvas id="chartTempo"></canvas></div>
+    </div>
+  </section>
+
+  <section class="table-card">
+    <h3>Lista de inscritos</h3>
+    <p class="cap" id="tableCaption">Mais recentes primeiro</p>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Idade</th>
+            <th>Bairro</th>
+            <th>Raça/Etnia</th>
+            <th>Cursos</th>
+            <th>Como soube</th>
+            <th>Origem</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer class="note">
+    Dados combinados de "Vagas remanecentes 3.xlsx", "INSCRIÇÃO ESTAÇÃO FUTURO 1.xlsx" e "ESTAÇÃO FUTURO 2.xlsx".
+    Bairros e canais de divulgação foram normalizados a partir do texto livre das respostas para agrupar grafias e variações equivalentes.
+  </footer>
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
