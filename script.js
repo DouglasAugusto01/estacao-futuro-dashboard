@@ -35,12 +35,6 @@ function palette(){
 }
 function stripAccents(s){ return s.normalize('NFD').replace(/\p{Diacritic}/gu,''); }
 function norm(s){ return stripAccents((s||'').toString()).toLowerCase(); }
-function fmtMonth(iso){
-  const d = new Date(iso);
-  const months = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
-  return months[d.getUTCMonth()] + '/' + String(d.getUTCFullYear()).slice(2);
-}
-
 let RAW = { people: [], enrollments: [] };
 let selectedFontes = new Set();
 let searchText = '';
@@ -179,17 +173,6 @@ function renderCharts(people, enrollments){
     color: pal.slot3,
     horizontal: true,
   });
-
-  // Tempo - por mês
-  const withDate = people.filter(p => p.timestamp);
-  const monthKey = p => p.timestamp.slice(0,7);
-  const monthCounts = countBy(withDate, monthKey);
-  const months = [...monthCounts.keys()].sort();
-  upsertLine('chartTempo', {
-    labels: months.map(fmtMonth),
-    data: months.map(m => monthCounts.get(m)),
-    color: pal.slot7,
-  });
 }
 
 function baseScales(pal, horizontal){
@@ -211,22 +194,6 @@ function upsertBar(id, { labels, data, color, horizontal }){
       responsive:true,
       plugins:{ legend:{ display:false }, tooltip:{ backgroundColor: pal.surface, titleColor: pal.text, bodyColor: pal.text, borderColor: pal.baseline, borderWidth:1 } },
       scales: baseScales(pal, horizontal),
-    }
-  });
-}
-
-function upsertLine(id, { labels, data, color }){
-  const pal = palette();
-  const canvas = document.getElementById(id);
-  if(charts[id]){ charts[id].destroy(); }
-  charts[id] = new Chart(canvas, {
-    type:'line',
-    data:{ labels, datasets:[{ data, borderColor: color, backgroundColor: color + '33', fill:true, tension:0.3, pointRadius:3, pointBackgroundColor: color, borderWidth:2 }] },
-    options:{
-      maintainAspectRatio:false,
-      responsive:true,
-      plugins:{ legend:{ display:false }, tooltip:{ backgroundColor: pal.surface, titleColor: pal.text, bodyColor: pal.text, borderColor: pal.baseline, borderWidth:1 } },
-      scales: baseScales(pal, false),
     }
   });
 }
