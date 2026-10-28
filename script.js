@@ -225,7 +225,7 @@ function applyThemeToCharts(){
 function renderTable(people){
   const sorted = [...people].sort((a,b) => (b.timestamp||'').localeCompare(a.timestamp||''));
   const filtered = searchText
-    ? sorted.filter(p => norm(p.nome).includes(searchText) || norm(p.bairro).includes(searchText) || norm(p.racaEtnia).includes(searchText) || norm(p.comoFicouSabendo).includes(searchText))
+    ? sorted.filter(p => norm(p.nome || p.id).includes(searchText) || norm(p.bairro).includes(searchText) || norm(p.racaEtnia).includes(searchText) || norm(p.comoFicouSabendo).includes(searchText))
     : sorted;
   document.getElementById('tableCaption').textContent =
     filtered.length + ' de ' + people.length + ' inscritos · mais recentes primeiro';
@@ -238,7 +238,7 @@ function renderTable(people){
   filtered.forEach(p => {
     const tr = document.createElement('tr');
     tr.innerHTML =
-      '<td>'+escapeHtml(p.nomeSocial || p.nome)+'</td>'+
+      '<td>'+escapeHtml(p.nomeSocial || p.nome || p.id)+'</td>'+
       '<td>'+(p.idade ?? '—')+'</td>'+
       '<td>'+escapeHtml(p.bairro)+'</td>'+
       '<td>'+escapeHtml(p.racaEtnia)+'</td>'+
